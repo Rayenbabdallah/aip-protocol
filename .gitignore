@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+
+# Environments
+.env
+
+# Build and Distribution
+dist/
+build/
+*.egg-info/
+
+# Testing
+.pytest_cache/
