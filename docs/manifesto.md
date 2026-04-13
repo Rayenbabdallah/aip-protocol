@@ -61,7 +61,7 @@ AIP has eight words. Each one was chosen because it carries exactly the weight o
 
 #### The Eight Words
 * **Bid** — the initiating gesture
-* **Écho** — the bid returning reshaped
+* **Echo** — the bid returning reshaped
 * **Pact** — committed work, the atom of AIP
 * **Flow** — the pact in motion
 * **Spun** — a child pact born mid-flow
@@ -98,7 +98,7 @@ We author AIP. We do not own it. The same way Tim Berners-Lee authored the web a
 **AIP's success is measured in agents connected, not in revenue captured.**
 
 > *An agent makes a Bid.*  
-> The receiver Échos back.  
+> The receiver Echos back.  
 > A Pact forms. It flows.  
 > It Seals — or Drifts.  
 > *The network learns.*
