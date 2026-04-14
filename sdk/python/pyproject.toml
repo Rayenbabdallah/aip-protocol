@@ -12,5 +12,12 @@ dependencies = []
 [project.optional-dependencies]
 dev = [
     "pytest",
-    "pytest-asyncio"
+    "pytest-asyncio",
+    "build",
+    "twine"
+]
+http = [
+    "fastapi",
+    "uvicorn",
+    "httpx"
 ]
