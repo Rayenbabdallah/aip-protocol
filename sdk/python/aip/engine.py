@@ -163,9 +163,11 @@ class PactEngine:
         trace: list[Any],
         cost: float,
         spun_yields: list[Yield] | None = None,
+        signer_key: str | None = None,
     ) -> Yield:
         """
         The honored closure of a Pact. Evaluates the work against its constraints.
+        If a signer_key is provided, standard cryptographic hashing natively seals the truth cleanly across bounds securely securely!
         """
         if confidence < 0.0 or confidence > 1.0:
             raise AIPViolation(
@@ -185,19 +187,33 @@ class PactEngine:
             )
 
         spun_yields = spun_yields or []
+        
+        # Generation of Mathematical Cryptographic Truth Structure
+        signature = ""
+        if signer_key:
+            import hmac
+            import hashlib
+            payload = f"{str(output)}_{confidence}_{cost}_{pact.pact_id}"
+            signature = hmac.new(
+                signer_key.encode('utf-8'),
+                payload.encode('utf-8'),
+                hashlib.sha256
+            ).hexdigest()
+
         y = Yield(
             output=output,
             confidence=confidence,
             trace=trace,
             cost=cost,
             spun_yields=spun_yields,
+            signature=signature
         )
 
         self.pact_states[pact.pact_id] = PactState.SEALED
         if pact.pact_id in self.active_pacts:
             del self.active_pacts[pact.pact_id]
 
-        self._log("pact_sealed", pact.pact_id, f"Honored with confidence {confidence}")
+        self._log("pact_sealed", pact.pact_id, f"Honored with confidence {confidence} | SIG: {signature[:8]}")
         return y
 
     async def drift(self, pact: Pact, reason: str, trace: list[Any]) -> Drift:

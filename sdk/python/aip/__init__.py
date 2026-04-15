@@ -16,7 +16,9 @@ from .primitives import (
 
 from .engine import PactEngine, AIPViolation
 
-from .agent import Agent, AgentRegistry
+from .agent import Agent
+
+from .registry import AgentRegistry, SQLiteAgentRegistry
 
 from .transport import LocalTransport, AsyncQueueTransport
 
@@ -24,6 +26,7 @@ from .transport import LocalTransport, AsyncQueueTransport
 __all__ = [
     "Agent",
     "AgentRegistry",
+    "SQLiteAgentRegistry",
     "Bid",
     "Echo",
     "Pact",
