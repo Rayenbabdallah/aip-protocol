@@ -39,7 +39,7 @@ AIP’s nomenclature aligns strictly with the behavioral truth of agent interact
 
 ### Installation
 ```bash
-pip install aip-protocol
+pip install aip-core
 ```
 
 ### Quickstart

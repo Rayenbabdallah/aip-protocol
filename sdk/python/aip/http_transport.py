@@ -2,7 +2,7 @@
 AIP HTTP Transport.
 
 Allows agents to physically break process boundaries tracking interactions natively across the web.
-Requires `pip install aip-protocol[http]` (FastAPI + httpx).
+Requires `pip install aip-core[http]` (FastAPI + httpx).
 """
 
 from typing import Any
