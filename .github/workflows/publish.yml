@@ -1,0 +1,32 @@
+name: Publish AIP Protocol
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+
+jobs:
+  pypi-publish:
+    name: Build & Upload to Global PyPI Repository Natively
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/p/aip-protocol
+    permissions:
+      id-token: write # Triggers OIDC Trusted Publishing natively eliminating string tokens structurally smoothly 
+    steps:
+    - uses: actions/checkout@v4
+    - name: Spin Native Environment 
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.12"
+    - name: Prepare Protocol Artifact Structures
+      run: python -m pip install build
+    - name: Crystallize Artifact Wheels Mathematically Safely 
+      run: python -m build sdk/python/
+    - name: Seamless Deployment to Production Endpoint
+      uses: pypa/gh-action-pypi-publish@release/v1
+      with:
+        packages-dir: sdk/python/dist/

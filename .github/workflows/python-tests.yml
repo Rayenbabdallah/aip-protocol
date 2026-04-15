@@ -1,0 +1,29 @@
+name: AIP Validation Suite
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  test:
+    name: Execute Core Protocol Mathematical Limits
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.11", "3.12"]
+    
+    steps:
+    - uses: actions/checkout@v4
+    - name: Initialize Deterministic Python Environment ${{ matrix.python-version }}
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Load Protocol Native Boundaries
+      run: |
+        python -m pip install --upgrade pip
+        pip install -e sdk/python/[dev,http]
+    - name: Enforce Structural Integrity Suite (pytest)
+      run: |
+        pytest sdk/python/tests/ -v
