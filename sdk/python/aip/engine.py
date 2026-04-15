@@ -55,7 +55,7 @@ class PactEngine:
 
     async def echo(
         self,
-        original_bid: Bid,
+        original_bid: Bid | Echo,
         modified_intent: dict[str, Any],
         modified_constraints: dict[str, Any],
         message: str,
@@ -63,18 +63,21 @@ class PactEngine:
         """
         Reshapes the terms. Boundaries are checked to prevent endless haggling.
         """
-        limit = original_bid.constraints.get("echo_limit", 3)
-        count = self.echo_counts.get(original_bid.bid_id, 0)
+        is_bid = isinstance(original_bid, Bid)
+        limit = original_bid.constraints.get("echo_limit", 3) if is_bid else original_bid.modified_constraints.get("echo_limit", 3)
+        bid_id = original_bid.bid_id if is_bid else original_bid.original_bid_id
+
+        count = self.echo_counts.get(bid_id, 0)
 
         if count >= limit:
-            self._log("echo_violation", original_bid.bid_id, f"Limit of {limit} reached")
+            self._log("echo_violation", bid_id, f"Limit of {limit} reached")
             raise AIPViolation(f"Echo limit of {limit} reached", "ECHO_LIMIT_EXCEEDED")
 
-        self.echo_counts[original_bid.bid_id] = count + 1
+        self.echo_counts[bid_id] = count + 1
         echo_id = uuid4()
         e = Echo(
             echo_id=echo_id,
-            original_bid_id=original_bid.bid_id,
+            original_bid_id=bid_id,
             from_agent=original_bid.to_agent,  # roles flip softly during negotiation
             to_agent=original_bid.from_agent,
             modified_intent=modified_intent,
@@ -82,7 +85,7 @@ class PactEngine:
             message=message,
         )
         self._log(
-            "echo_emitted", echo_id, f"Iteration {count + 1} for bid {original_bid.bid_id}"
+            "echo_emitted", echo_id, f"Iteration {count + 1} for bid {bid_id}"
         )
         return e
 

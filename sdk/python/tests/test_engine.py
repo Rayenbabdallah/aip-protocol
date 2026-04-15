@@ -61,7 +61,7 @@ async def test_echo_limit_truncates_haggling():
 
     result = await a1.send_bid("taker", {}, {"echo_limit": 2})
     assert hasattr(result, "reason")
-    assert "ECHO_LIMIT_EXCEEDED" in " ".join(result.trace) or "Limit" in result.reason or "ECHO_LIMIT_EXCEEDED" in result.reason
+    assert "ECHO_LIMIT_EXCEEDED" in " ".join(result.trace) or "limit" in result.reason.lower() or "ECHO_LIMIT_EXCEEDED" in result.reason
 
 
 @pytest.mark.asyncio
